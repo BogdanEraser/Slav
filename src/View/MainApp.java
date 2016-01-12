@@ -1,8 +1,10 @@
-/**
+package view; /**
  * Created by kuharskiy on 06.01.2016.
  */
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -17,8 +19,32 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+
+    /**
+     * The data as an observable list of Tovars.
+     */
+    private ObservableList<Tovar> tovarData = FXCollections.observableArrayList();
+
+    /**
+     * Constructor
+     */
+    public MainApp() {
+        // Add some sample data
+        tovarData.add(new Tovar(111, "Хлеб формовой"));
+        tovarData.add(new Tovar(112, "Батон нарезной"));
+        tovarData.add(new Tovar(151, "Булка городская"));
+    }
+
     public static void main(String[] args) {
         launch(args);
+    }
+
+    /**
+     * Returns the data as an observable list of Tovars.
+     * @return
+     */
+    public ObservableList<Tovar> getTovarData() {
+        return tovarData;
     }
 
     @Override
@@ -38,7 +64,8 @@ public class MainApp extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("iew/RootLayout.fxml"));
+
             rootLayout = loader.load();
 
             // Show the scene containing the root layout.
@@ -62,6 +89,11 @@ public class MainApp extends Application {
 
             // Set tovar card into the center of root layout.
             rootLayout.setCenter(personOverview);
+
+            // Give the controller access to the main app.
+            TovarOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
