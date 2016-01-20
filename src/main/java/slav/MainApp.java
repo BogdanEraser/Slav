@@ -32,11 +32,11 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Add some sample data
-        tovarData.add(new Tovar(111, "РҐР»РµР± С„РѕСЂРјРѕРІРѕР№"));
-        tovarData.add(new Tovar(112, "Р‘Р°С‚РѕРЅ РЅР°СЂРµР·РЅРѕР№"));
-        tovarData.add(new Tovar(151, "Р‘СѓР»РєР° РіРѕСЂРѕРґСЃРєР°СЏ"));
-        tovarData.add(new Tovar(212, "РџРµС‡РµРЅСЊРµ ''РњР°СЂС†РµР»РёРє''"));
-        tovarData.add(new Tovar(261, "РўРѕСЂС‚ ''РЈ-Р»Р°-Р»Р°''"));
+        tovarData.add(new Tovar(111, "Хлеб формовой"));
+        tovarData.add(new Tovar(112, "Батон нарезной"));
+        tovarData.add(new Tovar(151, "Булка городская"));
+        tovarData.add(new Tovar(212, "Печенье ''Марцелик''"));
+        tovarData.add(new Tovar(261, "Торт ''У-ла-ла''"));
     }
 
     public static void main(String[] args) {
@@ -55,7 +55,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("РЎР»Р°РІСЏРЅРѕС‡РєР° РЅР° JavaFX");
+        this.primaryStage.setTitle("Славяночка на JavaFX");
 
         initRootLayout();
 
@@ -83,7 +83,7 @@ public class MainApp extends Application {
     }
 
     /**
-     * РїРѕРєР°Р·С‹РІР°РµРј Р»СЌР№Р°СѓС‚ СЃ С‚РѕРІР°СЂР°РјРё РІРЅСѓС‚СЂРё РєРѕСЂРЅРµРІРѕРіРѕ Р»СЌР№Р°СѓС‚Р°
+     * показываем лэйаут с товарами внутри корневого лэйаута
      */
     public void showTovarCard() {
         try {
