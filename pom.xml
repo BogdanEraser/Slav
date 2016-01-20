@@ -16,6 +16,11 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <project.build.sourceEncoding>CP1251</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>CP1251</project.reporting.outputEncoding>
+    </properties>
+
     <groupId>Eraser</groupId>
     <artifactId>JFX-TEST</artifactId>
     <version>1.0</version>
