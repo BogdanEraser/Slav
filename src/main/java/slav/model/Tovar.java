@@ -30,13 +30,26 @@ public class Tovar {
      * @param code
      */
     public Tovar(Integer code, String name) {
-        this.name = new SimpleStringProperty(name);
         this.code = new SimpleIntegerProperty(code);
-
+        this.name = new SimpleStringProperty(name);
         // Some initial dummy data, just for convenient testing.
         this.price = new SimpleDoubleProperty(Math.round(Math.random() * 200) / 10.0d);
         this.weight = new SimpleDoubleProperty(Math.round(Math.random() * 10) / 10.0d);
         this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.of(2016, 1, 12));
+    }
+
+    /**
+     * Constructor with empty initial data.
+     *
+     * @param name
+     * @param code
+     */
+    public Tovar(Integer code, String name, Double price, Double weight, String bestBefore) {
+        this.code = new SimpleIntegerProperty(code);
+        this.name = new SimpleStringProperty(name);
+        this.price = new SimpleDoubleProperty(price);
+        this.weight = new SimpleDoubleProperty(weight);
+        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.parse(bestBefore));
     }
 
     public int getCode() {

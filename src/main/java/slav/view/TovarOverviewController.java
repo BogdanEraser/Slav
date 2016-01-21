@@ -51,9 +51,9 @@ public class TovarOverviewController {
         // Initialize the Tovar table with the two columns.
 
         /* WITHOUT LAMBDA
-        nameColumn = new TableColumn<Tovar,String>("РќР°РёРјРµРЅРѕРІР°РЅРёРµ");
+        nameColumn = new TableColumn<Tovar,String>("Наименование");
         nameColumn.setCellValueFactory(new PropertyValueFactory<Tovar,String>("name"));
-        priceColumn = new TableColumn<Tovar,Double>("Р¦РµРЅР°");
+        priceColumn = new TableColumn<Tovar,Double>("Цена");
         priceColumn.setCellValueFactory(new PropertyValueFactory<Tovar,Double>("price"));
         */
 
@@ -108,6 +108,46 @@ public class TovarOverviewController {
         tovarTableView.setItems(mainApp.getTovarData());
     }
 
+
+    /**
+     * Called when the user clicks the new button. Opens a dialog to edit
+     * details for a new tovar.
+     */
+    @FXML
+    private void handleNewTovar() {
+        Tovar tempTovar = new Tovar(0, "", 0.0d, 0.0d, "21.01.2016");
+        boolean okClicked = mainApp.showTovarEditDialog(tempTovar);
+        if (okClicked) {
+            mainApp.getTovarData().add(tempTovar);
+        }
+    }
+
+    /**
+     * Called when the user clicks the edit button. Opens a dialog to edit
+     * details for the selected tovar.
+     */
+    @FXML
+    private void handleEditTovar() {
+        Tovar selectedTovar = tovarTableView.getSelectionModel().getSelectedItem();
+        if (selectedTovar != null) {
+            boolean okClicked = mainApp.showTovarEditDialog(selectedTovar);
+            if (okClicked) {
+                showTovarDetails(selectedTovar);
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Товар не выбран");
+            alert.setContentText("Пожалуйста, выберите товар из таблицы.");
+
+            alert.showAndWait();
+        }
+    }
+
+
     /**
      * Called when the user clicks on the delete button.
      */
@@ -120,9 +160,9 @@ public class TovarOverviewController {
             // Nothing selected.
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("РћС€РёР±РєР°");
-            alert.setHeaderText("РќРёС‡РµРіРѕ РЅРµ РІС‹Р±СЂР°РЅРѕ");
-            alert.setContentText("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІС‹Р±РµСЂРёС‚Рµ СЃС‚СЂРѕРєСѓ.");
+            alert.setTitle("Ошибка");
+            alert.setHeaderText("Ничего не выбрано");
+            alert.setContentText("Пожалуйста, выберите строку.");
             alert.showAndWait();
         }
     }

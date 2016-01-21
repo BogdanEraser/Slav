@@ -61,7 +61,8 @@
                         <HBox alignment="CENTER" layoutX="14.0" layoutY="359.0" prefHeight="25.0" prefWidth="267.0"
                               AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                             <children>
-                                <Button layoutX="14.0" layoutY="359.0" mnemonicParsing="false" text="Новый">
+                                <Button layoutX="14.0" layoutY="359.0" mnemonicParsing="false"
+                                        onAction="#handleNewTovar" text="Новый">
                                     <HBox.margin>
                                         <Insets left="4.0" right="4.0"/>
                                     </HBox.margin>
@@ -69,7 +70,8 @@
                                         <Font size="14.0"/>
                                     </font>
                                 </Button>
-                                <Button layoutX="77.0" layoutY="359.0" mnemonicParsing="false" text="Редактировать...">
+                                <Button layoutX="77.0" layoutY="359.0" mnemonicParsing="false"
+                                        onAction="#handleEditTovar" text="Редактировать...">
                                     <HBox.margin>
                                         <Insets left="4.0" right="4.0"/>
                                     </HBox.margin>
