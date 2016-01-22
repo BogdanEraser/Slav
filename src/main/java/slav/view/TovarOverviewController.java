@@ -115,7 +115,7 @@ public class TovarOverviewController {
      */
     @FXML
     private void handleNewTovar() {
-        Tovar tempTovar = new Tovar(0, "", 0.0d, 0.0d, "21.01.2016");
+        Tovar tempTovar = new Tovar(0, "", 0.0d, 0.0d);
         boolean okClicked = mainApp.showTovarEditDialog(tempTovar);
         if (okClicked) {
             mainApp.getTovarData().add(tempTovar);
@@ -140,8 +140,8 @@ public class TovarOverviewController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.initOwner(mainApp.getPrimaryStage());
             alert.setTitle("Ошибка");
-            alert.setHeaderText("Товар не выбран");
-            alert.setContentText("Пожалуйста, выберите товар из таблицы.");
+            alert.setHeaderText("Ничего не выбрано");
+            alert.setContentText("Пожалуйста, выберите строку.");
 
             alert.showAndWait();
         }

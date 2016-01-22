@@ -44,12 +44,12 @@ public class Tovar {
      * @param name
      * @param code
      */
-    public Tovar(Integer code, String name, Double price, Double weight, String bestBefore) {
+    public Tovar(Integer code, String name, Double price, Double weight) {
         this.code = new SimpleIntegerProperty(code);
         this.name = new SimpleStringProperty(name);
         this.price = new SimpleDoubleProperty(price);
         this.weight = new SimpleDoubleProperty(weight);
-        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.parse(bestBefore));
+        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
     }
 
     public int getCode() {
