@@ -9,6 +9,8 @@ import main.java.slav.MainApp;
 import main.java.slav.model.Tovar;
 import main.java.slav.util.DateUtil;
 
+import java.sql.SQLException;
+
 /**
  * Created by kuharskiy on 12.01.2016.
  */
@@ -22,7 +24,7 @@ public class TovarOverviewController {
     private TableColumn<Tovar, Double> priceColumn;
 
     @FXML
-    private Label codeLabel;
+    private Label idLabel;
     @FXML
     private Label nameLabel;
     @FXML
@@ -79,7 +81,7 @@ public class TovarOverviewController {
     private void showTovarDetails(Tovar tovar) {
         if (tovar != null) {
             // Fill the labels with info from the person object.
-            codeLabel.setText(Integer.toString(tovar.getCode()));
+            idLabel.setText(Long.toString(tovar.getID()));
             nameLabel.setText(tovar.getName());
             weightLabel.setText(Double.toString(tovar.getWeight()));
             priceLabel.setText(Double.toString(tovar.getPrice()));
@@ -87,7 +89,7 @@ public class TovarOverviewController {
 
         } else {
             // tovar is null, remove all the text.
-            codeLabel.setText("");
+            idLabel.setText("");
             nameLabel.setText("");
             weightLabel.setText("");
             priceLabel.setText("");
@@ -114,8 +116,28 @@ public class TovarOverviewController {
      * details for a new tovar.
      */
     @FXML
-    private void handleNewTovar() {
-        Tovar tempTovar = new Tovar(0, "", 0.0d, 0.0d);
+    private void handleNewTovar() throws SQLException, ClassNotFoundException {
+        /*Connection conn = DBConnection.OpenDBConnection();
+        PreparedStatement st = conn.prepareStatement("SELECT MAX(ID) as MAXID FROM TBLTOVAR");
+        ResultSet rs = null;
+        try {
+            rs = st.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Get MAX(ID) failed. Ошибка получения МАКС(ID) для товара");
+        }
+
+        Tovar tempTovar = null;
+        if (rs.next()) {
+           tempTovar = new Tovar(rs.getInt("MAXID")+1);
+        }
+        else {tempTovar = new Tovar(0);}
+
+        rs.close();
+        st.close();
+        conn.close();*/
+
+        Tovar tempTovar = new Tovar();
         boolean okClicked = mainApp.showTovarEditDialog(tempTovar);
         if (okClicked) {
             mainApp.getTovarData().add(tempTovar);
@@ -128,6 +150,7 @@ public class TovarOverviewController {
      */
     @FXML
     private void handleEditTovar() {
+
         Tovar selectedTovar = tovarTableView.getSelectionModel().getSelectedItem();
         if (selectedTovar != null) {
             boolean okClicked = mainApp.showTovarEditDialog(selectedTovar);

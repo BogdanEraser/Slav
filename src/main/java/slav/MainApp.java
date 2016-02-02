@@ -13,10 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.java.slav.model.Tovar;
+import main.java.slav.model.implementation.TovarDAOImpl;
 import main.java.slav.view.TovarEditDialogController;
 import main.java.slav.view.TovarOverviewController;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 
 public class MainApp extends Application {
@@ -29,20 +31,40 @@ public class MainApp extends Application {
      * The data as an observable list of Tovars.
      */
     private ObservableList<Tovar> tovarData = FXCollections.observableArrayList();
+    //private static ObservableList<Tovar> tovarData = FXCollections.observableArrayList();
 
     /**
      * Constructor
      */
     public MainApp() {
         // Add some sample data
-        tovarData.add(new Tovar(111, "Хлеб формовой"));
-        tovarData.add(new Tovar(112, "Батон нарезной"));
-        tovarData.add(new Tovar(151, "Булка городская"));
-        tovarData.add(new Tovar(212, "Печенье ''Марцелик''"));
-        tovarData.add(new Tovar(261, "Торт ''У-ла-ла''"));
+       /* tovarData.add(new Tovar(111, "Хлеб формовой",1d,"","",1d,1));
+        tovarData.add(new Tovar(112, "Батон нарезной",2d,"",""2d,1));
+        tovarData.add(new Tovar(151, "Булка городская",3d,"","",3d,2));
+        tovarData.add(new Tovar(212, "Печенье ''Марцелик''",4d,"","",4d,3));
+        tovarData.add(new Tovar(261, "Торт ''У-ла-ла''",5d,"","",5d,4));
+        */
+        TovarDAOImpl tt = new TovarDAOImpl();
+        try {
+            tovarData.addAll(tt.getAllTovars());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) {
+    /**
+     * MAIN ROUTINE
+     */
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        //Preparing some data
+        TovarDAOImpl tt = new TovarDAOImpl();
+        System.out.println(tt.getTovarByID(1));
+        System.out.println(tt.getTovarByID(2));
+        System.out.println(tt.getTovarByID(3));
+
+        //Launching JavaFX
         launch(args);
     }
 

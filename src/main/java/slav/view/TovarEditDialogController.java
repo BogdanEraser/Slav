@@ -6,7 +6,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.java.slav.model.Tovar;
+import main.java.slav.model.implementation.TovarDAOImpl;
 import main.java.slav.util.DateUtil;
+
+import java.sql.SQLException;
 
 /**
  * Created by kuharskiy on 21.01.2016.
@@ -14,7 +17,7 @@ import main.java.slav.util.DateUtil;
 public class TovarEditDialogController {
 
     @FXML
-    private TextField codeField;
+    private TextField idField;
     @FXML
     private TextField nameField;
     @FXML
@@ -54,7 +57,7 @@ public class TovarEditDialogController {
     public void setTovar(Tovar tovar) {
         this.tovar = tovar;
 
-        codeField.setText(Integer.toString(tovar.getCode()));
+        idField.setText(Long.toString(tovar.getID()));
         nameField.setText(tovar.getName());
         weightField.setText(Double.toString(tovar.getWeight()));
         priceField.setText(Double.toString(tovar.getPrice()));
@@ -77,11 +80,21 @@ public class TovarEditDialogController {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            tovar.setCode(Integer.parseInt(codeField.getText()));
+            /*tovar.setID(Integer.parseInt(idField.getText()));
             tovar.setName(nameField.getText());
             tovar.setWeight(Double.parseDouble(weightField.getText()));
             tovar.setPrice(Double.parseDouble(priceField.getText()));
             tovar.setBestBefore(DateUtil.parse(bestBeforeField.getText()));
+            */
+            TovarDAOImpl tt = new TovarDAOImpl();
+            try {
+                //Tovar tempTovar = new Tovar(0,nameField.getText(),Double.parseDouble(weightField.getText())," "," ",Double.parseDouble(priceField.getText()),0);
+                tt.addTovar(new Tovar(0, nameField.getText(), Double.parseDouble(weightField.getText()), " ", " ", Double.parseDouble(priceField.getText()), 0));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             okClicked = true;
             dialogStage.close();
@@ -104,12 +117,12 @@ public class TovarEditDialogController {
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (codeField.getText() == null || codeField.getText().length() == 0) {
+        if (idField.getText() == null || idField.getText().length() == 0) {
             errorMessage += "Некорректный код!\n";
         } else {
             // try to parse the code into an int.
             try {
-                Integer.parseInt(codeField.getText());
+                Integer.parseInt(idField.getText());
             } catch (NumberFormatException e) {
                 errorMessage += "Некорректный код (должно быть число)!\n";
             }

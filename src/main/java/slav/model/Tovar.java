@@ -10,58 +10,73 @@ import java.time.LocalDate;
  */
 public class Tovar {
 
-    private final IntegerProperty code;
+    private final LongProperty ID;
     private final StringProperty name;
-    private final DoubleProperty price;
     private final DoubleProperty weight;
+    private final StringProperty units;
+    private final StringProperty gost;
+    private final DoubleProperty price;
+    private final IntegerProperty category;
     private final ObjectProperty<LocalDate> bestBefore;
 
     /**
      * Default constructor.
      */
     public Tovar() {
-        this(null, null);
+        this.ID = new SimpleLongProperty();
+        this.name = new SimpleStringProperty();
+        this.weight = new SimpleDoubleProperty();
+        this.units = new SimpleStringProperty();
+        this.gost = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+        this.category = new SimpleIntegerProperty();
+        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
     }
 
     /**
      * Constructor with some initial data.
-     *
+     *  @param ID
      * @param name
-     * @param code
+     * @param weight
+     * @param price
      */
-    public Tovar(Integer code, String name) {
-        this.code = new SimpleIntegerProperty(code);
+    public Tovar(long ID, String name, Double weight, String units, String gost, Double price, Integer category) {
+        this.ID = new SimpleLongProperty(ID);
         this.name = new SimpleStringProperty(name);
-        // Some initial dummy data, just for convenient testing.
-        this.price = new SimpleDoubleProperty(Math.round(Math.random() * 200) / 10.0d);
-        this.weight = new SimpleDoubleProperty(Math.round(Math.random() * 10) / 10.0d);
-        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.of(2016, 1, 12));
+        this.weight = new SimpleDoubleProperty(weight);
+        this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
+        this.units = new SimpleStringProperty(units);
+        this.gost = new SimpleStringProperty(gost);
+        this.price = new SimpleDoubleProperty(price);
+        this.category = new SimpleIntegerProperty(category);
     }
 
     /**
-     * Constructor with empty initial data.
+     * Constructor only with ID
      *
-     * @param name
-     * @param code
+     * @param ID
      */
-    public Tovar(Integer code, String name, Double price, Double weight) {
-        this.code = new SimpleIntegerProperty(code);
-        this.name = new SimpleStringProperty(name);
-        this.price = new SimpleDoubleProperty(price);
-        this.weight = new SimpleDoubleProperty(weight);
+    public Tovar(Integer ID) {
+        this.ID = new SimpleLongProperty(ID);
+        this.name = new SimpleStringProperty();
+        this.weight = new SimpleDoubleProperty();
         this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
+        this.units = new SimpleStringProperty();
+        this.gost = new SimpleStringProperty();
+        this.price = new SimpleDoubleProperty();
+        this.category = new SimpleIntegerProperty();
     }
 
-    public int getCode() {
-        return code.get();
+    public long getID() {
+        return ID.get();
     }
 
-    public void setCode(int code) {
-        this.code.set(code);
+    public void setID(long ID) {
+        this.ID.set(ID);
     }
 
-    public IntegerProperty codeProperty() {
-        return code;
+    public LongProperty IDProperty() {
+        return ID;
     }
 
     public String getName() {
@@ -110,5 +125,55 @@ public class Tovar {
 
     public ObjectProperty<LocalDate> bestBeforeProperty() {
         return bestBefore;
+    }
+
+    public String getGost() {
+        return gost.get();
+    }
+
+    public void setGost(String gost) {
+        this.gost.set(gost);
+    }
+
+    public StringProperty gostProperty() {
+        return gost;
+    }
+
+    public String getUnits() {
+        return units.get();
+    }
+
+    public void setUnits(String units) {
+        this.units.set(units);
+    }
+
+    public StringProperty unitsProperty() {
+        return units;
+    }
+
+    public int getCategory() {
+        return category.get();
+    }
+
+    public void setCategory(int category) {
+        this.category.set(category);
+    }
+
+    public IntegerProperty categoryProperty() {
+        return category;
+    }
+
+    @Override
+    public String toString() {
+        return "Tovar{" +
+                "ID=" + ID +
+                ", name=" + name +
+                ", weight=" + weight +
+                ", units=" + units +
+                ", gost=" + gost +
+                ", price=" + price +
+                ", category=" + category +
+                ", bestBefore=" + bestBefore +
+                '}';
     }
 }

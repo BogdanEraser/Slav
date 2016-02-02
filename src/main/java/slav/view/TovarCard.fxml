@@ -49,7 +49,7 @@
                                 <Label text="Наименование" GridPane.rowIndex="1"/>
                                 <Label text="Вес" GridPane.rowIndex="2"/>
                                 <Label text="Цена" GridPane.rowIndex="3"/>
-                                <Label fx:id="codeLabel" text="Label" GridPane.columnIndex="1"/>
+                                <Label fx:id="idLabel" text="Label" GridPane.columnIndex="1"/>
                                 <Label fx:id="nameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                                 <Label fx:id="weightLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                                 <Label fx:id="priceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
