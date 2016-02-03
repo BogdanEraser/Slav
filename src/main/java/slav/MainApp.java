@@ -44,14 +44,15 @@ public class MainApp extends Application {
         tovarData.add(new Tovar(212, "Печенье ''Марцелик''",4d,"","",4d,3));
         tovarData.add(new Tovar(261, "Торт ''У-ла-ла''",5d,"","",5d,4));
         */
-        TovarDAOImpl tt = new TovarDAOImpl();
+        this.getTovarData();
+        /*TovarDAOImpl tt = new TovarDAOImpl();
         try {
             tovarData.addAll(tt.getAllTovars());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**
@@ -74,6 +75,18 @@ public class MainApp extends Application {
      * @return
      */
     public ObservableList<Tovar> getTovarData() {
+        if (!tovarData.isEmpty()) {
+            tovarData.clear();
+        }
+
+        TovarDAOImpl tt = new TovarDAOImpl();
+        try {
+            tovarData.addAll(tt.getAllTovars());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return tovarData;
     }
 

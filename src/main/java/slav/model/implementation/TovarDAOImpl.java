@@ -1,9 +1,11 @@
 package main.java.slav.model.implementation;
 
+import javafx.beans.property.SimpleObjectProperty;
 import main.java.slav.model.DBConnection;
 import main.java.slav.model.Tovar;
 import main.java.slav.model.TovarDAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,19 +25,22 @@ public class TovarDAOImpl implements TovarDAO {
         if (conn != null) {
             PreparedStatement st = conn.prepareStatement("INSERT INTO tblTovar (ID, Name, Weight, Units, GOST, Price, Category) VALUES (default, ?, ?, ?, ?, ?, ?)");
             st.setString(1, tovar.getName());
-            st.setDouble(2, tovar.getWeight());
+            st.setBigDecimal(2, tovar.getWeight());
             st.setString(3, tovar.getUnits());
             st.setString(4, tovar.getGost());
-            st.setDouble(5, tovar.getPrice());
+            st.setBigDecimal(5, tovar.getPrice());
             st.setInt(6, tovar.getCategory());
             st.execute();
-            st.close();
-            conn.close();
-            //if (rs.next()) {
-            //    if (rs.getlong(1)==-1) return false;
-            //}
-
-            return true;
+            if (st.getUpdateCount() == 1) {
+                st.close();
+                conn.close();
+                return true;
+            } else {
+                System.out.println("Insert failed. Ошибка добавления данных в таблицу товаров");
+                st.close();
+                conn.close();
+                return false;
+            }
         } else {
             System.out.println("Connection failed. Ошибка соединения с БД");
             conn.close();
@@ -62,10 +67,10 @@ public class TovarDAOImpl implements TovarDAO {
         if (rs.next()) {
             tovar.setID(rs.getLong("ID"));
             tovar.setName(rs.getString("Name"));
-            tovar.setWeight(rs.getDouble("WEIGHT"));
+            tovar.setWeight(rs.getBigDecimal("WEIGHT"));
             tovar.setUnits(rs.getString("units"));
             tovar.setGost(rs.getString("GOST"));
-            tovar.setPrice(rs.getDouble("price"));
+            tovar.setPrice(rs.getBigDecimal("price"));
             tovar.setCategory(rs.getInt("category"));
         }
         rs.close();
@@ -77,23 +82,28 @@ public class TovarDAOImpl implements TovarDAO {
     @Override
     public List<Tovar> getAllTovars() throws SQLException, ClassNotFoundException {
         Connection conn = DBConnection.OpenDBConnection();
-        PreparedStatement st = conn.prepareStatement("SELECT * FROM tblTovar");
-        ResultSet rs = st.executeQuery();
-
         ArrayList<Tovar> tovarList = new ArrayList<>();
-        while (rs.next()) {
-            tovarList.add(new Tovar(rs.getLong("ID"),
-                    rs.getString("Name"),
-                    rs.getDouble("WEIGHT"),
-                    rs.getString("units"),
-                    rs.getString("GOST"),
-                    rs.getDouble("price"),
-                    rs.getInt("category")));
+        if (conn != null) {
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM tblTovar");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                SimpleObjectProperty<BigDecimal> p = new SimpleObjectProperty<BigDecimal>(rs.getBigDecimal("price"));
+                tovarList.add(new Tovar(rs.getLong("ID"),
+                        rs.getString("Name"),
+                        rs.getBigDecimal("WEIGHT"),
+                        rs.getString("units"),
+                        rs.getString("GOST"),
+                        p,
+                        rs.getInt("category")));
+            }
+            rs.close();
+            st.close();
+            conn.close();
+        } else {
+            System.out.println("Connection failed. Ошибка соединения с БД");
         }
-        rs.close();
-        st.close();
-        conn.close();
         return tovarList;
+
     }
 
     @Override
@@ -108,10 +118,10 @@ public class TovarDAOImpl implements TovarDAO {
         while (rs.next()) {
             tovarList.add(new Tovar(rs.getInt("ID"),
                     rs.getString("Name"),
-                    rs.getDouble("WEIGHT"),
+                    rs.getBigDecimal("WEIGHT"),
                     rs.getString("units"),
                     rs.getString("GOST"),
-                    rs.getDouble("price"),
+                    (SimpleObjectProperty<BigDecimal>) rs.getObject("price"),
                     rs.getInt("category")));
         }
 
@@ -125,23 +135,43 @@ public class TovarDAOImpl implements TovarDAO {
     public boolean updateTovar(Tovar tovar) throws SQLException, ClassNotFoundException {
 
         Connection conn = DBConnection.OpenDBConnection();
-        PreparedStatement st = conn.prepareStatement("UPDATE tblTovar SET Name = '?', Weight = ?, Units = '?', GOST = '?', Price = ?, Category = ? WHERE ID = ?;");
-        st.setString(1, tovar.getName());
-        st.setDouble(2, tovar.getWeight());
-        st.setString(3, tovar.getUnits());
-        st.setString(4, tovar.getGost());
-        st.setDouble(5, tovar.getPrice());
-        st.setInt(6, tovar.getCategory());
-        st.setLong(7, tovar.getID());
-        ResultSet rs = st.executeQuery();
-        conn.close();
-
-        return rs.next();
-
+        if (conn != null) {
+            PreparedStatement st = conn.prepareStatement("UPDATE tblTovar SET Name = '?', Weight = ?, Units = '?', GOST = '?', Price = ?, Category = ? WHERE ID = ?;");
+            st.setString(1, tovar.getName());
+            st.setBigDecimal(2, tovar.getWeight());
+            st.setString(3, tovar.getUnits());
+            st.setString(4, tovar.getGost());
+            st.setBigDecimal(5, tovar.getPrice());
+            st.setInt(6, tovar.getCategory());
+            st.setLong(7, tovar.getID());
+            ResultSet rs = st.executeQuery();
+            rs.close();
+            st.close();
+            conn.close();
+            return true;
+        } else return true;
     }
 
     @Override
-    public void deleteTovar(Integer tovarID) {
-
+    public boolean deleteTovar(long tovarID) throws SQLException, ClassNotFoundException {
+        Connection conn = DBConnection.OpenDBConnection();
+        if (conn != null) {
+            PreparedStatement st = conn.prepareStatement("DELETE FROM tblTovar WHERE ID = ?");
+            st.setLong(1, tovarID);
+            st.execute();
+            if (st.getUpdateCount() == 1) {
+                st.close();
+                conn.close();
+                return true;
+            } else {
+                System.out.println("Insert failed. Ошибка добавления данных в таблицу товаров");
+                st.close();
+                conn.close();
+                return false;
+            }
+        } else {
+            System.out.println("Connection failed. Ошибка соединения с БД");
+            return false;
+        }
     }
 }

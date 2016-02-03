@@ -20,6 +20,6 @@ public interface TovarDAO {
 
     boolean updateTovar(Tovar tovar) throws SQLException, ClassNotFoundException;
 
-    void deleteTovar(Integer tovarID);
+    boolean deleteTovar(long tovarID) throws SQLException, ClassNotFoundException;
 
 }

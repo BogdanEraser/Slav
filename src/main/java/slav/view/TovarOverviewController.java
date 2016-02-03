@@ -1,15 +1,15 @@
 package main.java.slav.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import main.java.slav.MainApp;
 import main.java.slav.model.Tovar;
+import main.java.slav.model.implementation.TovarDAOImpl;
 import main.java.slav.util.DateUtil;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * Created by kuharskiy on 12.01.2016.
@@ -21,7 +21,7 @@ public class TovarOverviewController {
     @FXML
     private TableColumn<Tovar, String> nameColumn;
     @FXML
-    private TableColumn<Tovar, Double> priceColumn;
+    private TableColumn<Tovar, BigDecimal> priceColumn;
 
     @FXML
     private Label idLabel;
@@ -55,12 +55,12 @@ public class TovarOverviewController {
         /* WITHOUT LAMBDA
         nameColumn = new TableColumn<Tovar,String>("Наименование");
         nameColumn.setCellValueFactory(new PropertyValueFactory<Tovar,String>("name"));
-        priceColumn = new TableColumn<Tovar,Double>("Цена");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Tovar,Double>("price"));
+        priceColumn = new TableColumn<Tovar,BigDecimal>("Цена");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<Tovar,BigDecimal>("price"));
         */
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
 
         // Clear tovar details.
         showTovarDetails(null);
@@ -83,8 +83,8 @@ public class TovarOverviewController {
             // Fill the labels with info from the person object.
             idLabel.setText(Long.toString(tovar.getID()));
             nameLabel.setText(tovar.getName());
-            weightLabel.setText(Double.toString(tovar.getWeight()));
-            priceLabel.setText(Double.toString(tovar.getPrice()));
+            weightLabel.setText(tovar.getWeight().toString());   //Double.toString(tovar.getWeight()));
+            priceLabel.setText(tovar.getPrice().toString());    //Double.toString(tovar.getPrice()));
             bestBeforeLabel.setText(DateUtil.format(tovar.getBestBefore()));
 
         } else {
@@ -140,7 +140,7 @@ public class TovarOverviewController {
         Tovar tempTovar = new Tovar();
         boolean okClicked = mainApp.showTovarEditDialog(tempTovar);
         if (okClicked) {
-            mainApp.getTovarData().add(tempTovar);
+            mainApp.getTovarData();//.add(tempTovar);
         }
     }
 
@@ -176,9 +176,28 @@ public class TovarOverviewController {
      */
     @FXML
     private void handleDeleteTovar() {
-        int selectedIndex = tovarTableView.getSelectionModel().getSelectedIndex();
+        long selectedIndex = tovarTableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            tovarTableView.getItems().remove(selectedIndex);
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Вопрос");
+            alert.setHeaderText("Удаление");
+            alert.setContentText("Действительно удалить товар под кодом " + mainApp.getTovarData().get((int) selectedIndex).getID() + " ?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                TovarDAOImpl tt = new TovarDAOImpl();
+                try {
+                    if (tt.deleteTovar(mainApp.getTovarData().get((int) selectedIndex).getID())) {
+                        mainApp.getTovarData();
+                    }
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //tovarTableView.getItems().remove(selectedIndex);
+            }
         } else {
             // Nothing selected.
             Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -1,5 +1,7 @@
 package main.java.slav.view;
 
+
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -9,7 +11,9 @@ import main.java.slav.model.Tovar;
 import main.java.slav.model.implementation.TovarDAOImpl;
 import main.java.slav.util.DateUtil;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
+
 
 /**
  * Created by kuharskiy on 21.01.2016.
@@ -59,8 +63,8 @@ public class TovarEditDialogController {
 
         idField.setText(Long.toString(tovar.getID()));
         nameField.setText(tovar.getName());
-        weightField.setText(Double.toString(tovar.getWeight()));
-        priceField.setText(Double.toString(tovar.getPrice()));
+        weightField.setText(tovar.getWeight().toString());   //Double.toString(tovar.getWeight()));
+        priceField.setText(tovar.getPrice().toString());     //Double.toString(tovar.getPrice()));
         bestBeforeField.setText(DateUtil.format(tovar.getBestBefore()));
         bestBeforeField.setPromptText("dd.mm.yyyy");
     }
@@ -89,7 +93,8 @@ public class TovarEditDialogController {
             TovarDAOImpl tt = new TovarDAOImpl();
             try {
                 //Tovar tempTovar = new Tovar(0,nameField.getText(),Double.parseDouble(weightField.getText())," "," ",Double.parseDouble(priceField.getText()),0);
-                tt.addTovar(new Tovar(0, nameField.getText(), Double.parseDouble(weightField.getText()), " ", " ", Double.parseDouble(priceField.getText()), 0));
+                SimpleObjectProperty<BigDecimal> p = new SimpleObjectProperty<BigDecimal>(BigDecimal.valueOf(Double.parseDouble(priceField.getText())));
+                tt.addTovar(new Tovar(0, nameField.getText(), BigDecimal.valueOf(Double.parseDouble(weightField.getText())), " ", " ", p, 0));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

@@ -2,22 +2,25 @@ package main.java.slav.model;
 
 import javafx.beans.property.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-
 
 /**
  * Created by kuharskiy on 12.01.2016.
  */
 public class Tovar {
 
-    private final LongProperty ID;
-    private final StringProperty name;
-    private final DoubleProperty weight;
-    private final StringProperty units;
-    private final StringProperty gost;
-    private final DoubleProperty price;
-    private final IntegerProperty category;
-    private final ObjectProperty<LocalDate> bestBefore;
+    private LongProperty ID;
+    private StringProperty name;
+    //private  DoubleProperty weight;
+    private BigDecimal weight;
+    private StringProperty units;
+    private StringProperty gost;
+    //private  DoubleProperty price;
+    //private BigDecimal price;
+    private SimpleObjectProperty price;
+    private IntegerProperty category;
+    private ObjectProperty<LocalDate> bestBefore;
 
     /**
      * Default constructor.
@@ -25,10 +28,13 @@ public class Tovar {
     public Tovar() {
         this.ID = new SimpleLongProperty();
         this.name = new SimpleStringProperty();
-        this.weight = new SimpleDoubleProperty();
+        //this.weight = new SimpleDoubleProperty();
+        this.weight = new BigDecimal("0");
         this.units = new SimpleStringProperty();
         this.gost = new SimpleStringProperty();
-        this.price = new SimpleDoubleProperty();
+        //this.price = new SimpleDoubleProperty();
+        //this.price = new BigDecimal("0");
+        this.price = new SimpleObjectProperty<BigDecimal>(new BigDecimal("0"));
         this.category = new SimpleIntegerProperty();
         this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
     }
@@ -40,14 +46,16 @@ public class Tovar {
      * @param weight
      * @param price
      */
-    public Tovar(long ID, String name, Double weight, String units, String gost, Double price, Integer category) {
+    public Tovar(long ID, String name, BigDecimal weight, String units, String gost, SimpleObjectProperty<BigDecimal> price, Integer category) {
         this.ID = new SimpleLongProperty(ID);
         this.name = new SimpleStringProperty(name);
-        this.weight = new SimpleDoubleProperty(weight);
+        //this.weight = new SimpleDoubleProperty(weight);
+        this.weight = weight;
         this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
         this.units = new SimpleStringProperty(units);
         this.gost = new SimpleStringProperty(gost);
-        this.price = new SimpleDoubleProperty(price);
+        //this.price = new SimpleDoubleProperty(price);
+        this.price = price;
         this.category = new SimpleIntegerProperty(category);
     }
 
@@ -59,11 +67,14 @@ public class Tovar {
     public Tovar(Integer ID) {
         this.ID = new SimpleLongProperty(ID);
         this.name = new SimpleStringProperty();
-        this.weight = new SimpleDoubleProperty();
+        //this.weight = new SimpleDoubleProperty();
+        this.weight = new BigDecimal("0");
         this.bestBefore = new SimpleObjectProperty<LocalDate>(LocalDate.now().plusDays(3)); //по умолчанию добавим к текущей дате 3 дня
         this.units = new SimpleStringProperty();
         this.gost = new SimpleStringProperty();
-        this.price = new SimpleDoubleProperty();
+        //this.price = new SimpleDoubleProperty();
+        //this.price = new BigDecimal("0");
+        this.price = new SimpleObjectProperty<BigDecimal>(new BigDecimal("0"));
         this.category = new SimpleIntegerProperty();
     }
 
@@ -91,27 +102,27 @@ public class Tovar {
         return name;
     }
 
-    public double getPrice() {
-        return price.get();
+    public BigDecimal getPrice() {
+        return (BigDecimal) price.get();
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price.set(price);
     }
 
-    public DoubleProperty priceProperty() {
+    public ObjectProperty<BigDecimal> priceProperty() {
         return price;
     }
 
-    public double getWeight() {
-        return weight.get();
+    public BigDecimal getWeight() {
+        return weight;
     }
 
-    public void setWeight(double weight) {
-        this.weight.set(weight);
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
     }
 
-    public DoubleProperty weightProperty() {
+    public BigDecimal weightProperty() {
         return weight;
     }
 
