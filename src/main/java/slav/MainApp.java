@@ -59,12 +59,6 @@ public class MainApp extends Application {
      * MAIN ROUTINE
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        //Preparing some data
-        TovarDAOImpl tt = new TovarDAOImpl();
-        System.out.println(tt.getTovarByID(1));
-        System.out.println(tt.getTovarByID(2));
-        System.out.println(tt.getTovarByID(3));
-
         //Launching JavaFX
         launch(args);
     }
@@ -83,8 +77,6 @@ public class MainApp extends Application {
         try {
             tovarData.addAll(tt.getAllTovars());
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return tovarData;

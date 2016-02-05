@@ -91,16 +91,23 @@ public class TovarEditDialogController {
             tovar.setBestBefore(DateUtil.parse(bestBeforeField.getText()));
             */
             TovarDAOImpl tt = new TovarDAOImpl();
-            try {
-                //Tovar tempTovar = new Tovar(0,nameField.getText(),Double.parseDouble(weightField.getText())," "," ",Double.parseDouble(priceField.getText()),0);
-                SimpleObjectProperty<BigDecimal> p = new SimpleObjectProperty<BigDecimal>(BigDecimal.valueOf(Double.parseDouble(priceField.getText())));
-                tt.addTovar(new Tovar(0, nameField.getText(), BigDecimal.valueOf(Double.parseDouble(weightField.getText())), " ", " ", p, 0));
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (Long.parseLong(idField.getText()) == 0) {
+                try {
+                    //Tovar tempTovar = new Tovar(0,nameField.getText(),Double.parseDouble(weightField.getText())," "," ",Double.parseDouble(priceField.getText()),0);
+                    SimpleObjectProperty<BigDecimal> p = new SimpleObjectProperty<BigDecimal>(BigDecimal.valueOf(Double.parseDouble(priceField.getText())));
+                    tt.addTovar(new Tovar(0, nameField.getText(), BigDecimal.valueOf(Double.parseDouble(weightField.getText())), " ", " ", p, 0));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    //Tovar tempTovar = new Tovar(0,nameField.getText(),Double.parseDouble(weightField.getText())," "," ",Double.parseDouble(priceField.getText()),0);
+                    SimpleObjectProperty<BigDecimal> p = new SimpleObjectProperty<BigDecimal>(BigDecimal.valueOf(Double.parseDouble(priceField.getText())));
+                    tt.updateTovar(new Tovar(Long.parseLong(idField.getText()), nameField.getText(), BigDecimal.valueOf(Double.parseDouble(weightField.getText())), " ", " ", p, 0));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-
             okClicked = true;
             dialogStage.close();
         }

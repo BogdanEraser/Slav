@@ -12,12 +12,9 @@ public class Tovar {
 
     private LongProperty ID;
     private StringProperty name;
-    //private  DoubleProperty weight;
     private BigDecimal weight;
     private StringProperty units;
     private StringProperty gost;
-    //private  DoubleProperty price;
-    //private BigDecimal price;
     private SimpleObjectProperty price;
     private IntegerProperty category;
     private ObjectProperty<LocalDate> bestBefore;

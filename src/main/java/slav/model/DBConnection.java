@@ -11,7 +11,7 @@ public class DBConnection {
     public static Connection conn;
 
     // --------ондйкчвемхе й аюге дюммшу--------
-    public static Connection OpenDBConnection() throws ClassNotFoundException, SQLException {
+    public static Connection OpenDBConnection() {
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {

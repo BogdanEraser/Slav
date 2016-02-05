@@ -117,25 +117,6 @@ public class TovarOverviewController {
      */
     @FXML
     private void handleNewTovar() throws SQLException, ClassNotFoundException {
-        /*Connection conn = DBConnection.OpenDBConnection();
-        PreparedStatement st = conn.prepareStatement("SELECT MAX(ID) as MAXID FROM TBLTOVAR");
-        ResultSet rs = null;
-        try {
-            rs = st.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Get MAX(ID) failed. Ошибка получения МАКС(ID) для товара");
-        }
-
-        Tovar tempTovar = null;
-        if (rs.next()) {
-           tempTovar = new Tovar(rs.getInt("MAXID")+1);
-        }
-        else {tempTovar = new Tovar(0);}
-
-        rs.close();
-        st.close();
-        conn.close();*/
 
         Tovar tempTovar = new Tovar();
         boolean okClicked = mainApp.showTovarEditDialog(tempTovar);
@@ -155,9 +136,9 @@ public class TovarOverviewController {
         if (selectedTovar != null) {
             boolean okClicked = mainApp.showTovarEditDialog(selectedTovar);
             if (okClicked) {
-                showTovarDetails(selectedTovar);
+                mainApp.getTovarData();
+                //showTovarDetails(selectedTovar);
             }
-
         } else {
             // Nothing selected.
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -165,7 +146,6 @@ public class TovarOverviewController {
             alert.setTitle("Ошибка");
             alert.setHeaderText("Ничего не выбрано");
             alert.setContentText("Пожалуйста, выберите строку.");
-
             alert.showAndWait();
         }
     }
@@ -179,12 +159,12 @@ public class TovarOverviewController {
         long selectedIndex = tovarTableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Вопрос");
-            alert.setHeaderText("Удаление");
-            alert.setContentText("Действительно удалить товар под кодом " + mainApp.getTovarData().get((int) selectedIndex).getID() + " ?");
-            Optional<ButtonType> result = alert.showAndWait();
+            Alert alertQuestion = new Alert(Alert.AlertType.CONFIRMATION);
+            //alertQuestion.initOwner(mainApp.getPrimaryStage());
+            alertQuestion.setTitle("Вопрос");
+            alertQuestion.setHeaderText("Удаление");
+            alertQuestion.setContentText("Действительно удалить товар под кодом " + mainApp.getTovarData().get((int) selectedIndex).getID() + " ?");
+            Optional<ButtonType> result = alertQuestion.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
@@ -192,8 +172,16 @@ public class TovarOverviewController {
                 try {
                     if (tt.deleteTovar(mainApp.getTovarData().get((int) selectedIndex).getID())) {
                         mainApp.getTovarData();
+                    } else {
+                        // Nothing selected.
+                        Alert alertDeleteFailed = new Alert(Alert.AlertType.WARNING);
+                        alertDeleteFailed.initOwner(mainApp.getPrimaryStage());
+                        alertDeleteFailed.setTitle("Ошибка");
+                        alertDeleteFailed.setHeaderText("Удаление не удалось");
+                        alertDeleteFailed.setContentText("Смотри консоль");
+                        alertDeleteFailed.showAndWait();
                     }
-                } catch (SQLException | ClassNotFoundException e) {
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 //tovarTableView.getItems().remove(selectedIndex);

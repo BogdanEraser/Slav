@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" id="BorderPane" prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/8" fx:controller="main.java.slav.view.RootController">
+            xmlns="http://javafx.com/javafx/8" fx:controller="main.java.slav.view.MenuController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -15,6 +15,17 @@
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Delete"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Импорт">
+                    <items>
+                        <MenuItem fx:id="import24exp2tt" mnemonicParsing="false" text="Из 24exp2tt.xlsx"/>
+                    </items>
+                    <items>
+                        <MenuItem fx:id="update24exp2tt" mnemonicParsing="false" text="Обновить 24exp2tt.xlsx"/>
+                    </items>
+                    <items>
+                        <MenuItem fx:id="export24exp2tt" mnemonicParsing="false" text="В 24exp2tt.xlsx"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

@@ -41,7 +41,6 @@
     <orderEntry type="library" name="Maven: nekohtml:xercesMinimal:1.9.6.2" level="project" />
     <orderEntry type="library" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
     <orderEntry type="library" name="Maven: commons-httpclient:commons-httpclient:3.1" level="project" />
-    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.maven.wagon:wagon-webdav-jackrabbit:1.0-beta-6" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.jackrabbit:jackrabbit-webdav:1.5.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.jackrabbit:jackrabbit-jcr-commons:1.5.0" level="project" />
@@ -77,5 +76,11 @@
     <orderEntry type="library" name="Maven: com.google.collections:google-collections:1.0" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:3.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.191" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.13" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.13" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.13" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
   </component>
 </module>

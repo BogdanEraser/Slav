@@ -1,25 +1,26 @@
 package main.java.slav.model;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Eraser on 01.02.2016.
  */
 public interface TovarDAO {
-    boolean addTovar(Tovar tovar) throws SQLException, ClassNotFoundException;
+    boolean addTovar(Tovar tovar) throws SQLException;
 
     Tovar getTovarByName(String tovarName) throws SQLException;
 
-    Tovar getTovarByID(long tovarID) throws SQLException, ClassNotFoundException, UnsupportedEncodingException;
+    Tovar getTovarByID(long tovarID) throws SQLException;
 
-    List<Tovar> getAllTovars() throws SQLException, ClassNotFoundException, UnsupportedEncodingException;
+    ArrayList<Tovar> getAllTovars() throws SQLException;
 
-    List<Tovar> getAllTovarsByCategory(Integer tovarCategory) throws SQLException, ClassNotFoundException;
+    ArrayList<Tovar> getAllTovarsByCategory(Integer tovarCategory) throws SQLException;
 
-    boolean updateTovar(Tovar tovar) throws SQLException, ClassNotFoundException;
+    boolean mergeTovarBatch(ArrayList<Tovar> tovarList) throws SQLException;
 
-    boolean deleteTovar(long tovarID) throws SQLException, ClassNotFoundException;
+    boolean updateTovar(Tovar tovar) throws SQLException;
+
+    boolean deleteTovar(long tovarID) throws SQLException;
 
 }
