@@ -122,10 +122,10 @@ public class MainApp extends Application {
             // Load tovar card.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/TovarCard.fxml"));
-            AnchorPane personOverview = loader.load();
+            AnchorPane tovarOverview = loader.load();
 
             // Set tovar card into the center of root layout.
-            rootLayout.setCenter(personOverview);
+            rootLayout.setCenter(tovarOverview);
 
             // Give the controller access to the main app.
             TovarOverviewController controller = loader.getController();
